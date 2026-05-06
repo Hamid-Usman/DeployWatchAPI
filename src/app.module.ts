@@ -42,7 +42,6 @@ import { AppService } from './app.service';
     AuthModule,
     UsersModule,
     HealthModule,
-    TextsModule,
     ProjectsModule,
     MetricsModule,
     DeploymentsModule,

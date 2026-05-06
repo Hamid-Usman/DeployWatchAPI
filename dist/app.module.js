@@ -51,7 +51,6 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
             health_module_1.HealthModule,
-            TextsModule,
             projects_module_1.ProjectsModule,
             metrics_module_1.MetricsModule,
             deployments_module_1.DeploymentsModule,
