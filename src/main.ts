@@ -48,7 +48,7 @@ async function bootstrap() {
   // Swagger API Documentation
   if (nodeEnv !== 'production') {
     const config = new DocumentBuilder()
-      .setTitle('DeployWatch API')
+      .setTitle('Helios API')
       .setDescription(
         'Observability platform for monitoring deployments, tracking API latency, and visualizing server health.',
       )

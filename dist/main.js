@@ -35,7 +35,7 @@ async function bootstrap() {
     app.useGlobalInterceptors(new common_1.ClassSerializerInterceptor(app.get(core_1.Reflector)));
     if (nodeEnv !== 'production') {
         const config = new swagger_1.DocumentBuilder()
-            .setTitle('DeployWatch API')
+            .setTitle('Helios API')
             .setDescription('Observability platform for monitoring deployments, tracking API latency, and visualizing server health.')
             .setVersion('1.0')
             .addBearerAuth()
