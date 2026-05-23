@@ -16,6 +16,8 @@ var MetricType;
 (function (MetricType) {
     MetricType["LATENCY"] = "latency";
     MetricType["HEALTH"] = "health";
+    MetricType["CPU"] = "cpu";
+    MetricType["RAM"] = "ram";
 })(MetricType || (exports.MetricType = MetricType = {}));
 let Metric = class Metric {
     id;

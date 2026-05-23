@@ -80,7 +80,7 @@ Helios enables real-time observability for any backend application. By integrati
 
 All client ingestion requests must include the project-specific API key in the headers:
 * **Header**: `x-api-key: dw_YOUR_API_KEY`
-* **Base URL**: `http://localhost:3000`
+* **Base URL**: `http://localhost:3000/api`
 
 #### A. Record Latency & Health Metrics
 * **Endpoint**: `POST /metrics`
@@ -115,7 +115,7 @@ Add this middleware to your Express.js app to automatically capture and report t
 ```javascript
 const axios = require('axios');
 
-const heliosMetricsMiddleware = (apiKey, heliosUrl = 'http://localhost:3000') => {
+const heliosMetricsMiddleware = (apiKey, heliosUrl = 'http://localhost:3000/api') => {
   return (req, res, next) => {
     const start = process.hrtime();
 
@@ -153,7 +153,7 @@ from fastapi import FastAPI, Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
 class HeliosMetricsMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, api_key: str, helios_url: str = "http://localhost:3000"):
+    def __init__(self, app, api_key: str, helios_url: str = "http://localhost:3000/api"):
         super().__init__(app)
         self.api_key = api_key
         self.helios_url = helios_url
@@ -197,7 +197,7 @@ Apply real-time telemetry to your Django Rest Framework (DRF) application by cre
            self.get_response = get_response
            # Pull keys from settings.py (with safe defaults)
            self.api_key = getattr(settings, 'HELIOS_API_KEY', None)
-           self.helios_url = getattr(settings, 'HELIOS_URL', 'http://localhost:3000')
+           self.helios_url = getattr(settings, 'HELIOS_URL', 'http://localhost:3000/api')
 
        def __call__(self, request):
            start_time = time.perf_counter()
@@ -210,7 +210,7 @@ Apply real-time telemetry to your Django Rest Framework (DRF) application by cre
                    target=self._upload_metric,
                    args=(latency_ms,),
                    daemon=True
-               ).start()
+                ).start()
 
            return response
 
@@ -234,7 +234,7 @@ Apply real-time telemetry to your Django Rest Framework (DRF) application by cre
    ]
 
    HELIOS_API_KEY = 'dw_your_project_api_key'
-   HELIOS_URL = 'http://localhost:3000' # Optional
+   HELIOS_URL = 'http://localhost:3000/api' # Optional
    ```
 
 #### 🛠️ GitHub Actions (Automated Deployment Tracking)
@@ -244,7 +244,7 @@ Add this step to your GitHub Actions CD pipeline to automatically notify Helios 
 - name: Report Deployment to Helios
   if: success()
   run: |
-    curl -X POST "http://localhost:3000/deployments" \
+    curl -X POST "http://localhost:3000/api/deployments" \
       -H "Content-Type: application/json" \
       -H "x-api-key: ${{ secrets.HELIOS_API_KEY }}" \
       -d '{

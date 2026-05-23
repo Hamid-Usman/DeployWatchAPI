@@ -1,7 +1,9 @@
 import { Project } from '../../projects/entities/project.entity';
 export declare enum MetricType {
     LATENCY = "latency",
-    HEALTH = "health"
+    HEALTH = "health",
+    CPU = "cpu",
+    RAM = "ram"
 }
 export declare class Metric {
     id: string;

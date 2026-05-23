@@ -10,6 +10,8 @@ import { Project } from '../../projects/entities/project.entity';
 export enum MetricType {
   LATENCY = 'latency',
   HEALTH = 'health',
+  CPU = 'cpu',
+  RAM = 'ram',
 }
 
 @Entity('metrics')
