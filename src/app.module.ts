@@ -19,7 +19,6 @@ import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
-import { TelemetryInterceptor } from './common/interceptors/telemetry.interceptor';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -76,10 +75,6 @@ import { AppService } from './app.service';
       useClass: TransformInterceptor,
     },
     // Global telemetry interceptor
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: TelemetryInterceptor,
-    },
   ],
 })
 export class AppModule { }
