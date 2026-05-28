@@ -40,12 +40,31 @@ let MetricsService = class MetricsService {
         }
         return savedMetric;
     }
-    async findByProject(projectId) {
-        return this.metricRepository.find({
-            where: { projectId },
+    async findByProject(projectId, query) {
+        const page = query.page ?? 1;
+        const limit = query.limit ?? 10;
+        const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+        const from = query.from ? new Date(query.from) : threeDaysAgo;
+        const to = query.to ? new Date(query.to) : new Date();
+        const where = {
+            projectId,
+            timestamp: (0, typeorm_2.Between)(from, to),
+        };
+        if (query.type) {
+            where.type = query.type;
+        }
+        const [data, total] = await this.metricRepository.findAndCount({
+            where,
             order: { timestamp: 'DESC' },
-            take: 100,
+            skip: (page - 1) * limit,
+            take: limit,
         });
+        return {
+            data,
+            total,
+            page,
+            limit,
+        };
     }
 };
 exports.MetricsService = MetricsService;

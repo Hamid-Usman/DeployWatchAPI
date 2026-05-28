@@ -6,10 +6,12 @@ import {
   Param,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiHeader } from '@nestjs/swagger';
 import { MetricsService } from './metrics.service';
 import { CreateMetricDto } from './dto/create-metric.dto';
+import { MetricsQueryDto } from './dto/metrics-query.dto';
 import { ApiKeyGuard } from '../../common/guards/api-key.guard';
 import { Public } from '../../common/decorators/public.decorator';
 
@@ -29,8 +31,11 @@ export class MetricsController {
 
   @ApiBearerAuth()
   @Get(':projectId')
-  @ApiOperation({ summary: 'Get metrics for a project' })
-  findByProject(@Param('projectId') projectId: string) {
-    return this.metricsService.findByProject(projectId);
+  @ApiOperation({ summary: 'Get paginated metrics for a project' })
+  findByProject(
+    @Param('projectId') projectId: string,
+    @Query() query: MetricsQueryDto,
+  ) {
+    return this.metricsService.findByProject(projectId, query);
   }
 }

@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const swagger_1 = require("@nestjs/swagger");
 const metrics_service_1 = require("./metrics.service");
 const create_metric_dto_1 = require("./dto/create-metric.dto");
+const metrics_query_dto_1 = require("./dto/metrics-query.dto");
 const api_key_guard_1 = require("../../common/guards/api-key.guard");
 const public_decorator_1 = require("../../common/decorators/public.decorator");
 let MetricsController = class MetricsController {
@@ -27,8 +28,8 @@ let MetricsController = class MetricsController {
     create(createMetricDto, req) {
         return this.metricsService.create(createMetricDto, req.project);
     }
-    findByProject(projectId) {
-        return this.metricsService.findByProject(projectId);
+    findByProject(projectId, query) {
+        return this.metricsService.findByProject(projectId, query);
     }
 };
 exports.MetricsController = MetricsController;
@@ -47,10 +48,11 @@ __decorate([
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Get)(':projectId'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get metrics for a project' }),
+    (0, swagger_1.ApiOperation)({ summary: 'Get paginated metrics for a project' }),
     __param(0, (0, common_1.Param)('projectId')),
+    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, metrics_query_dto_1.MetricsQueryDto]),
     __metadata("design:returntype", void 0)
 ], MetricsController.prototype, "findByProject", null);
 exports.MetricsController = MetricsController = __decorate([

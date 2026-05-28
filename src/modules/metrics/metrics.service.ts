@@ -1,10 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MoreThanOrEqual, Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Metric, MetricType } from './entities/metric.entity';
 import { CreateMetricDto } from './dto/create-metric.dto';
 import { MetricsGateway } from './metrics.gateway';
 import { Project } from '../projects/entities/project.entity';
+import { MetricsQueryDto } from './dto/metrics-query.dto';
 
 @Injectable()
 export class MetricsService {
@@ -40,15 +41,39 @@ export class MetricsService {
     return savedMetric;
   }
 
-  async findByProject(projectId: string): Promise<Metric[]> {
+  async findByProject(projectId: string, query: MetricsQueryDto): Promise<{
+    data: Metric[];
+    total: number;
+    page: number;
+    limit: number;
+  }> {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 10;
     const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+    const from = query.from ? new Date(query.from) : threeDaysAgo;
+    const to = query.to ? new Date(query.to) : new Date();
 
-    return this.metricRepository.find({
-      where: {
-        projectId,
-        timestamp: MoreThanOrEqual(threeDaysAgo),
-      },
+    const where: any = {
+      projectId,
+      timestamp: Between(from, to),
+    };
+
+    if (query.type) {
+      where.type = query.type;
+    }
+
+    const [data, total] = await this.metricRepository.findAndCount({
+      where,
       order: { timestamp: 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
     });
+
+    return {
+      data,
+      total,
+      page,
+      limit,
+    };
   }
 }

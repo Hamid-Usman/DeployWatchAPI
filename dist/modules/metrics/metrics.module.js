@@ -25,6 +25,7 @@ exports.MetricsModule = MetricsModule = __decorate([
         ],
         controllers: [metrics_controller_1.MetricsController],
         providers: [metrics_service_1.MetricsService, metrics_gateway_1.MetricsGateway],
+        exports: [metrics_service_1.MetricsService],
     })
 ], MetricsModule);
 //# sourceMappingURL=metrics.module.js.map
