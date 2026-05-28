@@ -13,5 +13,6 @@ import { ProjectsModule } from '../projects/projects.module';
   ],
   controllers: [MetricsController],
   providers: [MetricsService, MetricsGateway],
+  exports: [MetricsService],
 })
 export class MetricsModule {}

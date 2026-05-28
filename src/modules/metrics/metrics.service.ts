@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MoreThanOrEqual, Repository } from 'typeorm';
 import { Metric, MetricType } from './entities/metric.entity';
 import { CreateMetricDto } from './dto/create-metric.dto';
 import { MetricsGateway } from './metrics.gateway';
@@ -41,10 +41,14 @@ export class MetricsService {
   }
 
   async findByProject(projectId: string): Promise<Metric[]> {
+    const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+
     return this.metricRepository.find({
-      where: { projectId },
+      where: {
+        projectId,
+        timestamp: MoreThanOrEqual(threeDaysAgo),
+      },
       order: { timestamp: 'DESC' },
-      take: 100,
     });
   }
 }
