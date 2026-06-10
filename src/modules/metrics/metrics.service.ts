@@ -48,10 +48,12 @@ export class MetricsService {
     limit: number;
   }> {
     const page = query.page ?? 1;
-    const limit = query.limit ?? 10;
+    const rawLimit = query.limit ?? 10;
+    const limit = Math.min(rawLimit, 50);
     const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
     const from = query.from ? new Date(query.from) : threeDaysAgo;
-    const to = query.to ? new Date(query.to) : new Date();
+    // Add 1 hour to 'to' if not provided to account for any clock skew
+    const to = query.to ? new Date(query.to) : new Date(Date.now() + 60 * 60 * 1000);
 
     const where: any = {
       projectId,

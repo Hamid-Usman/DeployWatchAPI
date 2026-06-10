@@ -42,10 +42,11 @@ let MetricsService = class MetricsService {
     }
     async findByProject(projectId, query) {
         const page = query.page ?? 1;
-        const limit = query.limit ?? 10;
+        const rawLimit = query.limit ?? 10;
+        const limit = Math.min(rawLimit, 50);
         const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
         const from = query.from ? new Date(query.from) : threeDaysAgo;
-        const to = query.to ? new Date(query.to) : new Date();
+        const to = query.to ? new Date(query.to) : new Date(Date.now() + 60 * 60 * 1000);
         const where = {
             projectId,
             timestamp: (0, typeorm_2.Between)(from, to),

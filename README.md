@@ -237,7 +237,7 @@ Apply real-time telemetry to your Django Rest Framework (DRF) application by cre
    HELIOS_URL = 'http://localhost:3000/api' # Optional
    ```
 
-#### 🛠️ GitHub Actions (Automated Deployment Tracking)
+<!-- #### 🛠️ GitHub Actions (Automated Deployment Tracking)
 Add this step to your GitHub Actions CD pipeline to automatically notify Helios when a deployment finishes:
 
 ```yaml
@@ -252,7 +252,7 @@ Add this step to your GitHub Actions CD pipeline to automatically notify Helios 
         "environment": "production",
         "status": "success"
       }'
-```
+``` -->
 
 ---
 
